@@ -1,0 +1,49 @@
+第一段代码:
+print("Hello World")
+
+理由：
+1、这是我寒假学习python写的第一段代码，有纪念意义。
+2、我觉得这段代码代表着程序员的精神。
+
+第二段代码：
+import numpy as np
+import tensorflow as tf
+x_data = np.linspace(-1,1,100)
+y_data = 2 * x_data + 1.0 + np.random.randn(*x_data.shape)*0.4
+x = tf.placeholder("float",name = "x")
+y = tf.placeholder("float",name = "y")
+def model(x,w,b):
+    return tf.multiply(x,w)+b
+w = tf.Variable(1.0,name="w0")
+b = tf.Variable(0.0,name="b0")
+pred = model(x,w,b)
+train_epochs = 10
+learning_rate = 0.05
+loss_function = tf.reduce_mean(tf.square(y-pred))
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss_function)
+sess = tf.Session()
+init = tf.global_variables_initializer()
+sess.run(init)
+step = 0
+loss_list = []
+display_step=10
+for epoch in range(train_epochs):
+    for xs,ys in zip(x_data,y_data):
+        _,loss = sess.run([optimizer,loss_function],feed_dict={x:xs,y:ys})
+        loss_list.append(loss)
+        step=step+1
+        if step % display_step==0:
+            print("Train Epoch:",'%02d'%(epoch+1),"Step:%03d"%(step),"loss=",\
+                  "{:.9f}".format(loss))
+    b0temp=b.eval(session=sess)
+    w0temp=w.eval(session=sess)
+x_test = 3.21
+
+predict = sess.run(pred,feed_dict={x:x_test})
+print("predict:",predict)
+target = 2 *x_test+1.0
+print("target:",target)
+
+理由：
+1、这是我寒假学习tensorflow写的第一段代码，单变量线性回归。
+2、我觉得机器学习有趣，学会写出这段代码内心很快乐。
